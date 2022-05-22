@@ -12,13 +12,15 @@ const DestinationSchema = Schema({
     },
     imgUrl:{
         type: String,
+        default:"https://placeimg.com/380/230/nature"
     },
     selected: {
         type: Boolean,
         default: false,
     },
     services: [{
-        type: String
+        type: String,
+        default: []
     }],
     votes:{
         type: Number,

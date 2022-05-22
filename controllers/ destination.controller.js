@@ -1,12 +1,9 @@
+import Destination from "../models/ destination.model.js";
+
 const destinations = [
     {
-      id: "c39b140d-f010-41ce-be09-e8e41da8e259",
       title: "Guatemala",
       subtitle: "Guatemala",
-      imgUrl: "https://placeimg.com/380/230/nature",
-      selected: false,
-      services: [],
-      votes:0
     },
     {
       id: "edf599cd-6e85-40f6-8d3f-00a2c5100be6",
@@ -65,8 +62,34 @@ const destinations = [
 ]
 const getDestinations = (req, res) => {
     res.json(destinations);
+};
+
+const postDestination = async (req, res) => {
+  const {title, subtitle, imgUrl, services} = req.body;
+  try {
+      const destination = new Destination({
+        title,
+        subtitle,
+        imgUrl,
+        services,
+      });
+
+      const destinationDB = await destination.save();
+
+      return res.status(201).json({
+          destination: destinationDB
+      });
+
+  } catch (error) {
+      if(error){
+          return res.status(500).json({
+              error
+          });
+      };
+  }
 }
 
 export {
-    getDestinations
+    getDestinations,
+    postDestination
 }
