@@ -1,10 +1,10 @@
 import express from 'express'
 
-import destinoRouter from './destino.route.js'
+import destinationRouter from './destination.route.js'
 
 const routerApi = (app) => {
     const router = express.Router();
     app.use('/api', router);
-    router.use('/destinos', destinoRouter);
+    router.use('/destinations', destinationRouter);
   }
 export default routerApi;
