@@ -4,9 +4,7 @@ const getDestinations = async (req, res) => {
   try {
     const destinations = await Destination.find({});
 
-    return res.json({
-        destinations
-    });
+    return res.json(destinations);
        
   } catch (error) {
     if(error){
@@ -16,6 +14,21 @@ const getDestinations = async (req, res) => {
     }
   }
 };
+
+const searchDestination = async (req, res) => {
+  const { q } = req.query;
+  try {
+    let destinations = await Destination.find({title: { $regex: new RegExp(q, "i")}});
+    return res.json({
+        destinations
+    });
+  } catch (error) {
+    return res.json({
+      error
+  });
+  }
+}
+   
 
 const postDestination = async (req, res) => {
   const {title, subtitle, imgUrl, services} = req.body;
@@ -29,9 +42,7 @@ const postDestination = async (req, res) => {
 
       const destinationDB = await destination.save();
 
-      return res.status(201).json({
-          destination: destinationDB
-      });
+      return res.status(201).json(destinationDB);
 
   } catch (error) {
       if(error){
@@ -40,9 +51,22 @@ const postDestination = async (req, res) => {
           });
       };
   }
+};
+
+const getTranslation = (req, res) => {
+  const {lang} = req.query;
+  console.log(lang)
+  res.json([{
+    lang,
+    key:'HOLA',
+    value:`HOLA ${lang}`,
+
+  }])
 }
 
 export {
     getDestinations,
-    postDestination
+    searchDestination,
+    postDestination,
+    getTranslation
 }
